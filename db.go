@@ -38,3 +38,11 @@ func NewDB(path string, mode os.FileMode) (*BBoy, error) {
 		db: db,
 	}, nil
 }
+
+func (b *BBoy) Update(q Query) error {
+	return b.db.Update(q.Update)
+}
+
+func (b *BBoy) View(q Query) error {
+	return b.db.View(q.View)
+}

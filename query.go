@@ -1,64 +1,61 @@
 package bboy
 
-import "encoding/json"
+import (
+	"fmt"
+
+	"github.com/boltdb/bolt"
+)
 
 type Query interface {
-	Bucket(string) Query
-	Get(string) interface{}
-	SetDB(*BBoy) Query
+	Update(tx *bolt.Tx) error
+	View(tx *bolt.Tx) error
 }
 
-type Simple struct {
-	db     *BBoy
-	bucket string
-	key    string
+type Key struct {
+	Bucket []byte
+	Key    []byte
+	Value  []byte
 }
 
-func NewSimple(db *BBoy) *Simple {
-	return &Simple{
-		db: db,
+func NewKey(bucket, key, value string) *Key {
+	k := &Key{
+		Bucket: []byte(bucket),
+		Key:    []byte(key),
+		Value:  nil,
 	}
-}
 
-func (q *Simple) SetDB(b *BBoy) Query {
-	q.db = b
-	return q
-}
-
-func (q *Simple) Bucket(b string) Query {
-	return q
-}
-
-func (q *Simple) Get(k string) interface{} {
-	return ""
-}
-
-// EntityGen use Simple Query for generating entities from the query's result
-type Json struct {
-	simple *Simple
-}
-
-func NewJson(db *BBoy) *Json {
-	return &Json{
-		simple: &Simple{
-			db: db,
-		},
+	if value != "" {
+		k.Value = []byte(value)
 	}
+
+	return k
 }
 
-func (q *Json) SetDB(b *BBoy) Query {
-	q.simple.db = b
-	return q
+func (q *Key) Update(tx *bolt.Tx) error {
+	b, err := tx.CreateBucketIfNotExists(q.Bucket)
+
+	if err != nil {
+		return err
+	}
+
+	err = b.Put(q.Key, q.Value)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
 
-func (q *Json) Bucket(b string) Query {
-	q.simple.bucket = b
-	return q
-}
+func (q *Key) View(tx *bolt.Tx) error {
+	b := tx.Bucket(q.Bucket)
 
-func (q *Json) Get(k string) interface{} {
-	s := q.Get(k).(string)
+	res := b.Get(q.Key)
 
-	err := json.Unmarshal()
-	return
+	if res == nil {
+		return fmt.Errorf("[WARN] Could not get result from bucket '%s' and key '%s'", string(q.Bucket), string(q.Key))
+	}
+
+	q.Value = res
+	return nil
 }
