@@ -9,7 +9,7 @@ import (
 
 // BBoy engine struct
 type BBoy struct {
-	db   *bolt.DB
+	DB   *bolt.DB
 	path string
 	mode os.FileMode
 }
@@ -44,15 +44,15 @@ func NewDB(path string, mode os.FileMode) (*BBoy, error) {
 	}
 
 	return &BBoy{
-		db:   db,
+		DB:   db,
 		path: path,
 		mode: mode,
 	}, nil
 }
 
 func (b *BBoy) ResetLink() (err error) {
-	oldLink := b.db
-	b.db, err = bolt.Open(b.path, b.mode, nil)
+	oldLink := b.DB
+	b.DB, err = bolt.Open(b.path, b.mode, nil)
 
 	if err != nil {
 		return
@@ -63,12 +63,12 @@ func (b *BBoy) ResetLink() (err error) {
 
 // Update calls the Update method from bbolt using the Update method from a Query entity
 func (b *BBoy) Update(q Query) error {
-	return b.db.Update(q.Update)
+	return b.DB.Update(q.Update)
 }
 
 // View calls the View method from bbolt using the View method from a Query entity
 func (b *BBoy) View(q Query) error {
-	return b.db.View(q.View)
+	return b.DB.View(q.View)
 }
 
 // Get combines call to View and FetchResult from Query entity
@@ -81,5 +81,5 @@ func (b *BBoy) Get(q Query) (map[string][]byte, error) {
 
 // Close calls bbolt close
 func (b *BBoy) Close() {
-	b.db.Close()
+	b.DB.Close()
 }
