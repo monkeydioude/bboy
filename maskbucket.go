@@ -14,10 +14,10 @@ const (
 type MaskBucket struct {
 	Bucket []byte
 	Keys   map[string][]byte
-	Mode   int8
+	Mode   uint8
 }
 
-func NewMaskBucket(b string, k map[string][]byte, m int8) *MaskBucket {
+func NewMaskBucket(b string, k map[string][]byte, m uint8) *MaskBucket {
 	return &MaskBucket{
 		Bucket: []byte(b),
 		Keys:   k,
