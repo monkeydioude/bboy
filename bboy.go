@@ -1,7 +1,7 @@
 package bboy
 
 import (
-	"errors"
+	"fmt"
 	"os"
 
 	"github.com/boltdb/bolt"
@@ -40,7 +40,7 @@ func NewDB(path string, mode os.FileMode) (*BBoy, error) {
 	db, err := bolt.Open(path, mode, nil)
 
 	if err != nil {
-		return nil, errors.New("[ERR ] Could not open DB")
+		return nil, fmt.Errorf("[ERR ] Could not open DB. Reason: %s", err)
 	}
 
 	return &BBoy{
