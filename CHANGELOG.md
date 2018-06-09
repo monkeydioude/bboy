@@ -1,4 +1,4 @@
-### 1.0.3 - 09-06-2018
+### 1.1.0 - 09-06-2018
 
 - Use coreos/bbolt package now, which is a fork of bolt
 - Add and use SafeCopy function, protecting from unsafe []byte pointer manipulation from bolt
