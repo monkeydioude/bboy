@@ -3,7 +3,7 @@ package bboy
 import (
 	"fmt"
 
-	"github.com/boltdb/bolt"
+	"github.com/coreos/bbolt"
 )
 
 const (

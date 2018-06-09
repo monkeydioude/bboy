@@ -3,7 +3,7 @@ package bboy
 import (
 	"fmt"
 
-	"github.com/boltdb/bolt"
+	"github.com/coreos/bbolt"
 )
 
 // Key implments Query interface
@@ -58,7 +58,7 @@ func (q *Key) View(tx *bolt.Tx) error {
 		return fmt.Errorf("[WARN] Could not get result from bucket '%s' and key '%s'", string(q.Bucket), string(q.Key))
 	}
 
-	q.Result[string(q.Key)] = res
+	q.Result[string(q.Key)] = SafeCopy(res)
 	return nil
 }
 

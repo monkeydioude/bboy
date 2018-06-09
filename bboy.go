@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/boltdb/bolt"
+	"github.com/coreos/bbolt"
 )
 
 // BBoy engine struct
