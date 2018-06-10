@@ -1,3 +1,7 @@
+### 1.1.1 - 10-06-2018
+
+- Modified logging message in View
+
 ### 1.1.0 - 09-06-2018
 
 - Use coreos/bbolt package now, which is a fork of bolt
