@@ -55,7 +55,7 @@ func (q *Key) View(tx *bolt.Tx) error {
 	res := b.Get(q.Key)
 
 	if res == nil {
-		return fmt.Errorf("[WARN] Could not get result from bucket '%s' and key '%s'", string(q.Bucket), string(q.Key))
+		return fmt.Errorf("Could not get result from bucket '%s' and key '%s'", string(q.Bucket), string(q.Key))
 	}
 
 	q.Result[string(q.Key)] = SafeCopy(res)
