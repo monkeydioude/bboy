@@ -1,3 +1,7 @@
+### 1.1.2 - 14-06-2018
+
+- Add error handling on key/view
+
 ### 1.1.1 - 10-06-2018
 
 - Modified logging message in View
