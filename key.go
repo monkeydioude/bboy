@@ -1,6 +1,7 @@
 package bboy
 
 import (
+	"errors"
 	"fmt"
 
 	"github.com/coreos/bbolt"
@@ -50,7 +51,13 @@ func (q *Key) Update(tx *bolt.Tx) error {
 
 // View from Query interface
 func (q *Key) View(tx *bolt.Tx) error {
+	if tx == nil {
+		return errors.New("empty tx")
+	}
 	b := tx.Bucket(q.Bucket)
+	if b == nil {
+		return fmt.Errorf("Bucket '%s' does not exist", q.Bucket)
+	}
 
 	res := b.Get(q.Key)
 
