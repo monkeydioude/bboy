@@ -1,8 +1,6 @@
 package bboy
 
-import (
-	"github.com/coreos/bbolt"
-)
+import bolt "github.com/coreos/bbolt"
 
 // Query interface is made to be used with BBoy Query Engine
 type Query interface {

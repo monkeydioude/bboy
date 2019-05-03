@@ -3,7 +3,7 @@ package bboy
 import (
 	"errors"
 
-	"github.com/coreos/bbolt"
+	bolt "github.com/coreos/bbolt"
 )
 
 // Bucket implments Query interface

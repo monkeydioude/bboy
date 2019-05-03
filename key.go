@@ -4,7 +4,7 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/coreos/bbolt"
+	bolt "github.com/coreos/bbolt"
 )
 
 // Key implments Query interface

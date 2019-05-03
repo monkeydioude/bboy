@@ -1,3 +1,7 @@
+### 2.0.0 - 03-05-2019
+
+- Moved to github.com/coreos/bbolt
+
 ### 1.1.2 - 14-06-2018
 
 - Add error handling on key/view
