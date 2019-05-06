@@ -1,3 +1,7 @@
+### 3.0.0 - 06-05-2019
+
+- Changed constructor + added helpers func
+
 ### 2.0.0 - 03-05-2019
 
 - Moved to github.com/coreos/bbolt
