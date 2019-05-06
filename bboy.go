@@ -22,34 +22,57 @@ const (
 
 // OpenWrite opens a bbolt DB on write-only mode
 func OpenWrite(path string) (*BBoy, error) {
-	return NewDB(path, WR_ONLY)
+	db := New(path)
+	return nil, db.OpenWrite()
 }
 
 // OpenRead opens a bbolt DB on read-only mode
 func OpenRead(path string) (*BBoy, error) {
-	return NewDB(path, RD_ONLY)
+	db := New(path)
+	return nil, db.OpenRead()
 }
 
 // OpenReadWrite opens a bbolt DB on read-only mode
 func OpenReadWrite(path string) (*BBoy, error) {
-	return NewDB(path, RD_WR)
+	db := New(path)
+	return nil, db.OpenReadWrite()
 }
 
-// NewDB opens a bbolt DB using an os.FileMode
-func NewDB(path string, mode os.FileMode) (*BBoy, error) {
-	db, err := bolt.Open(path, mode, nil)
+// New opens a bbolt DB using an os.FileMode
+func New(path string) *BBoy {
+	return &BBoy{
+		path: path,
+	}
+}
+
+// OpenWrite opens a bbolt DB on write-only mode
+func (b *BBoy) OpenWrite() error {
+	return b.Open(WR_ONLY)
+}
+
+// OpenRead opens a bbolt DB on read-only mode
+func (b *BBoy) OpenRead() error {
+	return b.Open(RD_ONLY)
+}
+
+// OpenReadWrite opens a bbolt DB on read-only mode
+func (b *BBoy) OpenReadWrite() error {
+	return b.Open(RD_WR)
+}
+
+// Open opens a DB connection using a mode
+func (b *BBoy) Open(mode os.FileMode) error {
+	db, err := bolt.Open(b.path, mode, nil)
 
 	if err != nil {
-		return nil, fmt.Errorf("[ERR ] Could not open DB. Reason: %s", err)
+		return fmt.Errorf("[ERR ] Could not open DB. Reason: %s", err)
 	}
 
-	return &BBoy{
-		DB:   db,
-		path: path,
-		mode: mode,
-	}, nil
+	b.DB = db
+	return nil
 }
 
+// ResetLink allow to close old connection to DB and opens a new one
 func (b *BBoy) ResetLink() (err error) {
 	oldLink := b.DB
 	b.DB, err = bolt.Open(b.path, b.mode, nil)
