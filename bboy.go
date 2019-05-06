@@ -23,19 +23,19 @@ const (
 // OpenWrite opens a bbolt DB on write-only mode
 func OpenWrite(path string) (*BBoy, error) {
 	db := New(path)
-	return nil, db.OpenWrite()
+	return db, db.OpenWrite()
 }
 
 // OpenRead opens a bbolt DB on read-only mode
 func OpenRead(path string) (*BBoy, error) {
 	db := New(path)
-	return nil, db.OpenRead()
+	return db, db.OpenRead()
 }
 
 // OpenReadWrite opens a bbolt DB on read-only mode
 func OpenReadWrite(path string) (*BBoy, error) {
 	db := New(path)
-	return nil, db.OpenReadWrite()
+	return db, db.OpenReadWrite()
 }
 
 // New opens a bbolt DB using an os.FileMode
